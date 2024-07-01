@@ -1,0 +1,51 @@
+#!/bin/bash
+
+# example .env file
+# SERVER_1=["Name 1", "user@server1_ip"]
+# SERVER_2=["Name 2", "user@server2_ip"]
+
+if [ -f .env ]; then
+  while IFS= read -r line
+  do
+    if [[ $line == SERVER_* ]]; then
+      key=$(echo $line | cut -d'=' -f1)
+      value=$(echo $line | cut -d'=' -f2-)
+      description=$(echo $value | cut -d',' -f1 | tr -d '[" ]')
+      address=$(echo $value | cut -d',' -f2 | tr -d '[" ]')
+      key_number=$(echo $key | grep -o -E '[0-9]+')
+      SERVERS[$key_number]="$description - $address"
+    fi
+  done < .env
+else
+  echo ".env file not found"
+  exit 1
+fi
+
+show_servers() {
+  echo "Available servers:"
+  for key in "${!SERVERS[@]}"; do
+    echo "$key - ${SERVERS[$key]}"
+  done
+}
+
+connect_to_server() {
+  local server_key=$1
+  if [ -z "${SERVERS[$server_key]}" ]; then
+    echo "Server not found"
+    exit 1
+  fi
+
+  local server_info="${SERVERS[$server_key]}"
+  local address=$(echo $server_info | awk -F' - ' '{print $2}')
+  
+  ssh "$address"
+}
+
+if [ "$#" -eq 0 ]; then
+  show_servers
+  read -p "Enter the number of the server you want to connect to: " server_key
+else
+  server_key=$1
+fi
+
+connect_to_server "$server_key"

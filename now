@@ -1,0 +1,7 @@
+#!/bin/bash
+
+echo "week        = $(date +week_%U)"
+echo "day         = $(date +day_%d)"
+echo "month       = $(date +%B | tr 'A-Z' 'a-z')"
+echo "year        = $(date +year_%Y)"
+echo "today       = $(date +%A | tr 'A-Z' 'a-z')"

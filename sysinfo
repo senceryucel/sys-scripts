@@ -1,0 +1,25 @@
+#!/bin/bash
+
+echo -e "\nOS Version:"
+lsb_release -a
+
+echo -e "\nKernel:"
+uname -r
+
+echo -e "\nCPU:"
+lscpu | grep "Model name\|Thread(s) per core\|Core(s) per socket"
+
+echo -e "\nGPU:"
+lspci | grep -i 'vga\|3d\|2d'
+
+echo -e "\nUptime:"
+uptime -p
+
+echo -e "\nNetwork:"
+ip -4 addr show | grep inet
+
+echo -e "\nLogged-in Users:"
+who
+
+echo -e "\nLast 3 Reboot:"
+last reboot -n 3
