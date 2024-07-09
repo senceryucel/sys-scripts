@@ -3,6 +3,7 @@
 # example .env file
 # SERVER_1=["Name 1", "user@server1_ip"]
 # SERVER_2=["Name 2", "user@server2_ip"]
+# Do not forget to add a blank line at the end of the file
 
 if [ -f .env ]; then
   while IFS= read -r line
