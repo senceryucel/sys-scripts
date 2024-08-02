@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# ----------
+# prints system information
+# ----------
+
 echo -e "\nOS Version:"
 lsb_release -a
 
@@ -18,8 +22,8 @@ uptime -p
 echo -e "\nNetwork:"
 ip -4 addr show | grep inet
 
-echo -e "\nLogged-in Users:"
+echo -e "\nLogged Users:"
 who
 
-echo -e "\nLast 3 Reboot:"
+echo -e "\nLast Reboots:"
 last reboot -n 3

@@ -1,1 +1,1 @@
-#### A collection of bash scripts for automating the process of my daily routine tasks
+#### A collection of bash scripts that I use daily.

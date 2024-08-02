@@ -1,0 +1,24 @@
+#!/bin/bash
+
+# ----------
+# opens a monitoring terminal with nvidia-smi and btop
+# ----------
+
+# sudo apt-get install xdotool wmctrl terminator
+
+terminator &
+
+sleep .75
+
+wmctrl -r :ACTIVE: -b add,maximized_vert,maximized_horz
+
+xdotool type --delay .5 --clearmodifiers "watch -n .2 nvidia-smi"
+xdotool key Return
+sleep .2
+
+xdotool key ctrl+shift+e
+sleep .2
+
+xdotool type --delay .5 --clearmodifiers "btop"
+xdotool key Return
+sleep .2

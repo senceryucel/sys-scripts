@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# ----------
+# connect to a predefined remote server
+# ----------
+
 # example .env file
 # SERVER_1=["Name 1", "user@server1_ip"]
 # SERVER_2=["Name 2", "user@server2_ip"]
