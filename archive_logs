@@ -1,0 +1,29 @@
+#!/bin/bash
+
+LOG_DIR="/var/log"
+
+# to be able to archive logs to the user's home directory
+# it saves it to /root/{archive_dir} by default when run with sudo
+USER_HOME=$(eval echo ~${SUDO_USER})
+
+ARCHIVE_DIR="$USER_HOME/.log-archive"  # fetch from env?
+
+if [ ! -d "$ARCHIVE_DIR" ]; then
+    mkdir -p "$ARCHIVE_DIR"
+fi
+
+TIMESTAMP=$(date +"%Y_%m_%d_%H_%M")  # yyyy_mm_dd_hh_mm
+
+NEW_ARCHIVE_DIR="$ARCHIVE_DIR/$TIMESTAMP"
+
+if [ ! -d "$NEW_ARCHIVE_DIR" ]; then
+    mkdir -p "$NEW_ARCHIVE_DIR"
+fi
+
+for file in $LOG_DIR/*.log; do
+    if [ -f "$file" ]; then
+        cp "$file" "$NEW_ARCHIVE_DIR/"
+    fi
+done
+
+echo "Logs archived to $NEW_ARCHIVE_DIR"
