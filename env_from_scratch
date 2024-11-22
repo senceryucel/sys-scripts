@@ -1,0 +1,42 @@
+# setting up a new debian/ubuntu machine - 11/2024
+
+sudo apt-get update
+sudo apt-get install -y git git-lfs vim curl wget unzip zip
+sudo apt-get install -y tree jq 
+sudo apt-get install -y openssh-server ufw net-tools nmap
+sudo apt-get install -y build-essential cmake
+sudo apt-get install -y btop htop 
+
+# docker
+for pkg in docker.io docker-doc docker-compose docker-compose-v2 podman-docker containerd runc; do sudo apt-get remove $pkg; done
+sudo apt-get update
+sudo apt-get install ca-certificates
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+sudo apt-get update
+sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin 
+sudo usermod -aG docker $USER
+sudo systemctl enable docker
+sudo systemctl start docker
+
+# miniconda
+curl -O https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+bash Miniconda3-latest-Linux-x86_64.sh
+rm Miniconda3-latest-Linux-x86_64.sh
+
+echo "**********"
+echo "Installation completed successfully."
+echo "Rebooting in 10 seconds. Press Ctrl+C to cancel."
+for i in $(seq 10 -1 1); do
+  echo "$i "
+  sleep 1
+done
+
+sudo reboot
